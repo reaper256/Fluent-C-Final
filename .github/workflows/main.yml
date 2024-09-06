@@ -50,7 +50,7 @@ jobs:
     # - uses: actions/download-artifact@v4
     - name: Deploy Plugin 
       id: deploy-plugin
-      if: ${{ inputs.d_plugin == true || inputs.d_plugin == 'true' }}
+      # if: ${{ inputs.d_plugin == true || inputs.d_plugin == 'true' }}
       continue-on-error: false
       run: |
         echo "${{ inputs.version }}"
