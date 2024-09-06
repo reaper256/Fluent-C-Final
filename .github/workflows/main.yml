@@ -1,0 +1,59 @@
+name: Deploy Package
+
+on:
+  workflow_dispatch:
+  # workflow_call:
+  #   inputs:
+  #     version:
+  #       type: string
+  #       required: true
+    inputs:
+      t_env:
+        type: string
+        description: Target Environment
+  #     d_plugin:
+  #       description: Deploy Plug-in
+  #       type: string
+  #       required: true
+  #     d_workflow:
+  #       description: Deploy Workflows
+  #       type: string
+  #       required: true
+  #     d_setting:
+  #       description: Deploy Settings
+  #       type: string
+  #       required: true
+  #     d_manifest:
+  #       description: Deploy Manifest
+  #       type: string
+  #       required: true
+  #     accountID:
+  #       description: Account ID of Fluent Commerce Account
+  #       type: string
+  #       required: true
+  #     api_host:
+  #       description: API Host of Fluent Commerce Account
+  #       type: string
+  #       required: true        
+        
+    # secrets:
+    #   auth-token:
+    #     description: API Authentication Token
+    #     required: true
+    
+
+jobs:
+  build_package:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.t_env }}
+    steps:
+    # - uses: actions/download-artifact@v4
+    - name: Deploy Plugin 
+      id: deploy-plugin
+      if: ${{ inputs.d_plugin == true || inputs.d_plugin == 'true' }}
+      continue-on-error: false
+      run: |
+        echo "${{ inputs.version }}"
+        echo ${{ secrets.username }}
+        echo ${{ vars.api_host }}
+        
