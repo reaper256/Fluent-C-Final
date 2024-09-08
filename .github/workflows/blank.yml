@@ -31,6 +31,9 @@ jobs:
         set -x
         current_version=${{ steps.read_version.outputs.current_version }}
         IFS='.' read -r -a version_parts <<< "$current_version"
+        echo "version_parts[0]"
+        echo "version_parts[1]"
+        echo "version_parts[2]"
         version_parts[2]=$((version_parts[2] + 1))
         new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
         echo "New version: $new_version"
