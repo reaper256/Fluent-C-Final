@@ -37,6 +37,6 @@ jobs:
     - name: Update secret variable
       run: |
         new_version=${{ steps.increment_version.outputs.new_version }}
-        echo -n $new_version | gh secret set VERSION --repo ${{ github.repository }} --body -
+        gh secret set VERSION --repo reaper256/Fluent-Test --body "${new_version}
       env:
         GH_TOKEN: ${{ github.token }}
