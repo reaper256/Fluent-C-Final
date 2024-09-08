@@ -17,6 +17,7 @@ jobs:
     - name: Read current version
       id: read_version
       run: |
+        set -x
         current_version=${{ secrets.VERSION }}
         if [ -z "$current_version" ]; then
           current_version="0.0.0"
