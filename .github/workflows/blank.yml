@@ -1,0 +1,41 @@
+name: Update Version
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Read current version
+      id: read_version
+      run: |
+        current_version=${{ secrets.VERSION }}
+        if [ -z "$current_version" ]; then
+          current_version="0.0.0"
+        fi
+        echo "Current version: $current_version"
+        echo "::set-output name=current_version::$current_version"
+
+    - name: Increment version
+      id: increment_version
+      run: |
+        current_version=${{ steps.read_version.outputs.current_version }}
+        IFS='.' read -r -a version_parts <<< "$current_version"
+        version_parts[2]=$((version_parts[2] + 1))
+        new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
+        echo "New version: $new_version"
+        echo "::set-output name=new_version::$new_version"
+
+    - name: Update GitHub Actions secret
+      run: |
+        new_version=${{ steps.increment_version.outputs.new_version }}
+        echo "::add-mask::$new_version"
+        echo "VERSION=$new_version" >> $GITHUB_ENV
