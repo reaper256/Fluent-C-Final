@@ -28,6 +28,7 @@ jobs:
     - name: Increment version
       id: increment_version
       run: |
+        set -x
         current_version=${{ steps.read_version.outputs.current_version }}
         IFS='.' read -r -a version_parts <<< "$current_version"
         version_parts[2]=$((version_parts[2] + 1))
