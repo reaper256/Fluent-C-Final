@@ -18,7 +18,7 @@ jobs:
       id: read_version
       run: |
         set -x
-        current_version=${{ secrets.VERSION }}
+        current_version=${{ secrets.NEW_V }}
         if [ -z "$current_version" ]; then
           current_version="0.0.0"
         fi
@@ -41,6 +41,7 @@ jobs:
 
     - name: Update secret variable
       run: |
+        set -x
         new_version=${{ steps.increment_version.outputs.new_version }}
         gh secret set VERSION --repo reaper256/Fluent-Test --body "${new_version}"
       env:
