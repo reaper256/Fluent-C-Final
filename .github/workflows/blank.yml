@@ -1,4 +1,4 @@
-name: Update Version
+name: Update Secret Variable
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-version:
+  update-secret:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,8 +34,7 @@ jobs:
         echo "New version: $new_version"
         echo "::set-output name=new_version::$new_version"
 
-    - name: Update GitHub Actions secret
+    - name: Update secret variable
       run: |
         new_version=${{ steps.increment_version.outputs.new_version }}
-        echo "::add-mask::$new_version"
-        echo "VERSION=$new_version" >> $GITHUB_ENV
+        echo -n $new_version | gh secret set VERSION --repo ${{ github.repository }} --body -
